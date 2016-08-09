@@ -126,7 +126,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         $anchors = array();
         $toc = '<div id="toc"><div id="toc-hide"><span class="am-icon-list am-btn-xs am-btn" id="toc-switch" > 显隐</span></div>' . "\n";
 
-        $toc .= '<p id="toc-header">' . _t('文章目录') . '</p><ul id="toc-ul">';
+        $toc .= '<p id="toc-header">' . _t('文章目录') . '</p>';
         $i = $oder = $prevlvl = 0;
         $anchor_base = 'phpgao';
 
@@ -188,11 +188,11 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
             if ($i > 0) {
                 if ($prevlvl < $lvl) {
-                    $toc .= "\n" . "<ul>" . "\n";
+                    $toc .= "\n" . "\n";
                 } else if ($prevlvl > $lvl) {
                     $toc .= '</li>' . "\n";
                     while ($prevlvl > $lvl) {
-                        $toc .= "</ul>" . "\n" . '</li>' . "\n";
+                        $toc .=  "\n" . '</li>' . "\n";
                         $prevlvl--;
                     }
                 } else {
@@ -215,7 +215,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         }
 
         $toc .= '</li>' . "\n";
-        $toc .= '</ul></div>' . "\n";
+        $toc .= '</div>' . "\n";
 
         return $toc . $content;
     }
@@ -227,7 +227,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
         $html = str_get_html($content, 1, 1, 'UTF-8', false);
 
-        $toc = '<div class="toc-index"><div class="toc-title">本文目录 <span class="toc-toggle">[<a id="content-index-togglelink" href="javascript:content_index_toggleToc()">隐藏</a>]</span></div><div id="toc-content">';
+        $toc = '<div class="toc-index"><div class="toc-title">本文目录</div><div id="toc-content">';
         $toc .= '';
         $last_level = 0;
         $count_h2 = 0;
@@ -242,7 +242,7 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
             if ($level == 2) {
                 $count_h2++;
-                $innerTEXT = self::dec2roman($count_h2) . ' ' . $innerTEXT;
+                $innerTEXT = ' ' . self::dec2roman($count_h2) . ' ' . $innerTEXT;
             }
             $h->id = $id; // add id attribute so we can jump to this element
 
@@ -250,22 +250,22 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
 
             if ($level > $last_level)
                 // add class
-                $toc .= '<ul>';
+                $toc .= '';
             else {
-                $toc .= str_repeat('</li></ul>', $last_level - $level);
+                $toc .= str_repeat('</li>', $last_level - $level);
                 $toc .= '</li>';
             }
             if ($level >= $last_level) {
                 $toc .= "<li class='toc-level$level'><a href='#{$id}'>{$innerTEXT}</a>";
             } else {
-                $toc .= "<li><a href='#{$id}'>{$innerTEXT}</a>";
+                $toc .= "<li class='toc-level2'><a href='#{$id}'>{$innerTEXT}</a>";
             }
 
 
             $last_level = $level;
         }
 
-        $toc .= str_repeat('</li></ul>', $last_level);
+        $toc .= str_repeat('</li>', $last_level);
         $toc .= '</div></div>';
 
 
@@ -281,25 +281,10 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
      */
     public static function dec2roman($f)
     {
-        $old_k = '';
+		return ' ';
         // Return false if either $f is not a real number, $f is bigger than 3999 or $f is lower or equal to 0:
         if (!is_numeric($f) || $f > 3999 || $f <= 0) return false;
-
-        // Define the roman figures:
-        $roman = array('M' => 1000, 'D' => 500, 'C' => 100, 'L' => 50, 'X' => 10, 'V' => 5, 'I' => 1);
-
-        // Calculate the needed roman figures:
-        foreach ($roman as $k => $v) if (($amount[$k] = floor($f / $v)) > 0) $f -= $amount[$k] * $v;
-
-        // Build the string:
-        $return = '';
-        foreach ($amount as $k => $v) {
-            $return .= $v <= 3 ? str_repeat($k, $v) : $k . $old_k;
-            $old_k = $k;
-        }
-
-        // Replace some spacial cases and return the string:
-        return str_replace(array('VIV', 'LXL', 'DCD'), array('IX', 'XC', 'CM'), $return . '. ');
+		return ' '.strval($f).'.';
     }
 
 }
