@@ -32,14 +32,15 @@
 
 .toc-level2 {
     margin-left: 8px;
+	list-style-type: square;
 }
 
 .toc-level3 {
-    margin-left: 20px;
+    margin-left: 18px;
     list-style-type: circle;
 }
 
 @media (min-width:768px){
     .toc-index {
-        max-width: 13%;float: right;
+        max-width: 15%;float: right;
     }}
