@@ -190,18 +190,18 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
                 if ($prevlvl < $lvl) {
                     $toc .= "\n" . "\n";
                 } else if ($prevlvl > $lvl) {
-                    $toc .= '</li>' . "\n";
+                    $toc .= '' . "\n";
                     while ($prevlvl > $lvl) {
-                        $toc .=  "\n" . '</li>' . "\n";
+                        $toc .=  "\n" . '' . "\n";
                         $prevlvl--;
                     }
                 } else {
-                    $toc .= '</li>' . "\n";
+                    $toc .= '' . "\n";
                 }
             }
 
             $j = 0;
-            $toc .= '<li><a href="#' . $anchor . '">' . $title . '</a>';
+            $toc .= '<a href="#' . $anchor . '">' . $title . '</a>';
             $prevlvl = $lvl;
 
             $i++;
@@ -210,11 +210,11 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
         unset($anchors);
 
         while ($lvl > $startlvl) {
-            $toc .= "\n</ol>";
+            $toc .= "\n";
             $lvl--;
         }
 
-        $toc .= '</li>' . "\n";
+        $toc .= '' . "\n";
         $toc .= '</div>' . "\n";
 
         return $toc . $content;
@@ -252,20 +252,20 @@ class TableOfContents_Plugin implements Typecho_Plugin_Interface
                 // add class
                 $toc .= '';
             else {
-                $toc .= str_repeat('</li>', $last_level - $level);
-                $toc .= '</li>';
+                $toc .= str_repeat('', $last_level - $level);
+                $toc .= '';
             }
             if ($level >= $last_level) {
-                $toc .= "<li class='toc-level$level'><a href='#{$id}'>{$innerTEXT}</a>";
+                $toc .= "<p class='toc-level$level'><a href='#{$id}'>{$innerTEXT}</a>";
             } else {
-                $toc .= "<li class='toc-level2'><a href='#{$id}'>{$innerTEXT}</a>";
+                $toc .= "<p class='toc-level2'><a href='#{$id}'>{$innerTEXT}</a>";
             }
 
 
             $last_level = $level;
         }
 
-        $toc .= str_repeat('</li>', $last_level);
+        $toc .= str_repeat('', $last_level);
         $toc .= '</div></div>';
 
 
